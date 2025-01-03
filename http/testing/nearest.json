@@ -1,0 +1,35 @@
+﻿[
+    {
+        "name": "Joe Bloggs",
+        "country": "GBR",
+        "team": "Test Team",
+        "teamCode": "TEST",
+        "speed": 10000,
+        "timeGap": 2000,
+        "position": 1,
+        "distance": 30000,
+        "isEliminated": false
+    },
+    {
+        "name": "Joe Bloggs",
+        "country": "GBR",
+        "team": "Test Team",
+        "teamCode": "TEST",
+        "speed": 11000,
+        "timeGap": 0,
+        "position": 2,
+        "distance": 25000,
+        "isEliminated": false
+    },
+    {
+        "name": "Jane Doe",
+        "country": "USA",
+        "team": "",
+        "teamCode": "",
+        "speed": 9000,
+        "timeGap": -1000,
+        "position": 3,
+        "distance": 20000,
+        "isEliminated": false
+    }
+]

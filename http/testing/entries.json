@@ -1,0 +1,23 @@
+﻿[
+    {
+        "bibNum": 1,
+        "name": "Stefan Wendler",
+        "country": "GER",
+        "team": "",
+        "teamCode": ""
+    },
+    {
+        "bibNum": 2,
+        "name": "Joe Bloggs",
+        "country": "GBR",
+        "team": "Test Team",
+        "teamCode": "TEST"
+    },
+    {
+        "bibNum": 3,
+        "name": "Jane Doe",
+        "country": "USA",
+        "team": "",
+        "teamCode": ""
+    }
+]

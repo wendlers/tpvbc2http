@@ -1,0 +1,56 @@
+<html>
+    <header>
+        <style>
+            body {
+                font-family: sans-serif;
+            }
+            .panel {
+                border: 2px solid black;
+                padding: 2px;
+                margin: 5px;
+                display: inline-block;
+                width: 150px;
+            }
+            .label {
+                font-weight: bold;
+                font-size: x-large;
+                margin-bottom: 5px;
+            }
+            .value {
+                font-size: large;
+            }
+        </style>
+    </header>
+    <body>
+        <h1>TPV Focused</h1>
+        <div class="panel"><div class="label">NAME</div>    <div class="value" id="name">?</div></div>
+        <div class="panel"><div class="label">POWER</div>   <div class="value" id="power">?</div></div>
+        <div class="panel"><div class="label">HR</div>      <div class="value" id="heartrate">?</div></div>
+        <div class="panel"><div class="label">SPEED</div>   <div class="value" id="speed">?</div></div>
+        <div class="panel"><div class="label">DISTANCE</div><div class="value" id="distance">?</div></div>
+        <div class="panel"><div class="label">CADENCE</div> <div class="value" id="cadence">?</div></div>
+        <div class="panel"><div class="label">TIME</div>    <div class="value" id="time">?</div></div>
+        <div class="panel"><div class="label">TSS</div>    <div class="value" id="tss">?</div></div>
+        <div class="panel"><div class="label">SLOPE</div>    <div class="value" id="slope">?</div></div>
+        <script>
+            function update_data() {
+                fetch('/bcast/focus/blocking/10')
+                .then(response => response.json())
+                .then(json => {
+                    // console.log(json);
+                    document.getElementById("name").innerHTML = json[0].name;
+                    document.getElementById("power").innerHTML = json[0].power;
+                    document.getElementById("heartrate").innerHTML = json[0].heartrate;
+                    document.getElementById("speed").innerHTML = (json[0].speed / 275).toFixed(1);
+                    document.getElementById("distance").innerHTML = json[0].distance / 1000;
+                    document.getElementById("cadence").innerHTML = json[0].cadence;
+                    document.getElementById("time").innerHTML = json[0].time;
+                    document.getElementById("tss").innerHTML = json[0].tss;
+                    document.getElementById("slope").innerHTML = json[0].slope;
+                    setTimeout(update_data, 100); 
+                });
+            }
+            update_data();
+        </script>        
+    </body>
+</html>

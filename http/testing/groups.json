@@ -1,0 +1,29 @@
+﻿[
+    {
+        "groupNum1": 1,
+        "groupNum2": 0,
+        "leader": "Stefan Wendler",
+        "size": 1,
+        "timeGap1": 10,
+        "timeGap2": 0,
+        "isPeloton": false
+    },
+    {
+        "groupNum1": 2,
+        "groupNum2": 0,
+        "leader": "Joe Bloggs",
+        "size": 50,
+        "timeGap1": 5000,
+        "timeGap2": 0,
+        "isPeloton": true
+    },
+    {
+        "groupNum1": 3,
+        "groupNum2": 10,
+        "leader": null,
+        "size": 20,
+        "timeGap1": 20000,
+        "timeGap2": 120000,
+        "isPeloton": false
+    }
+]

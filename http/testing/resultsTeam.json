@@ -1,0 +1,20 @@
+﻿[
+    {
+        "location": 0,
+        "position": 1,
+        "team": "indieVelo Founders Club",
+        "teamCode": "IVFC",
+        "pointsTotal": 100,
+        "time": 60000.0,
+        "deltaTime": 0.0
+    },
+    {
+        "location": 0,
+        "position": 2,
+        "team": "Test Team",
+        "teamCode": "TEST",
+        "pointsTotal": 99,
+        "time": 60001.0,
+        "deltaTime": 1.0
+    }
+]

@@ -1,0 +1,11 @@
+﻿[
+    {
+        "name": "Test Event",
+        "route": "A Grand Day Out",
+        "laps": 1,
+        "distance": 52381,
+        "height": 676,
+        "locations": 1,
+        "type": "Scratch Race"
+    }
+]

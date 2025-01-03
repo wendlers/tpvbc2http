@@ -1,0 +1,28 @@
+﻿[
+    {
+        "location": 0,
+        "position": 1,
+        "name": "Stefan Wendler",
+        "country": "GER",
+        "team": "",
+        "teamCode": "",
+        "points": 1,
+        "pointsTotal": 10,
+        "time": 60000,
+        "deltaTime": 1000,
+        "isEliminated": false
+    },
+    {
+        "location": 0,
+        "position": 2,
+        "name": "Joe Bloggs",
+        "country": "GBR",
+        "team": "Test Team",
+        "teamCode": "TEST",
+        "points": 0,
+        "pointsTotal": 5,
+        "time": 60001,
+        "deltaTime": 1,
+        "isEliminated": false
+    }
+]
