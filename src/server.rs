@@ -52,7 +52,7 @@ fn response_from_file(fname: &str, wait_for_change: u64) -> Response {
         Ok(content) => Response::new()
                                 .status_line(ok_status)
                                 .mime("text/json")
-                                .body(content.as_bytes().to_vec()),
+                                .body(content[3..].as_bytes().to_vec()),
         Err(err) => Response::new()
                                 .status_line("HTTP/1.1 404 Not Found\r\n")
                                 .mime("text/plain")

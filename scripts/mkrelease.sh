@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cargo build --target x86_64-pc-windows-gnu --release || exit 1
+#cargo build --target x86_64-pc-windows-gnu || exit 1
 
 test -d release && rm -fr release
 mkdir -p release/x86_64-pc-windows-gnu/tpvcbc2http/
