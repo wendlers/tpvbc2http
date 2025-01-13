@@ -158,6 +158,8 @@ pub(crate) fn start(cfg: config::Server) {
         get_nearest_blocking(),
         get_event(),
         get_event_blocking(),
+        get_entries(),
+        get_entries_blocking(),
         get_groups(),
         get_groups_blocking(),
         get_resultsindv(),
