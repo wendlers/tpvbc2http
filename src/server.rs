@@ -124,22 +124,22 @@ fn get_groups_blocking(req: Request) -> Response {
     response_from_file(&full_path("groups.json"), parse_timeout(req.get_wildcard().unwrap()))
 }
 
-#[get("/bcast/resultsindv")]
+#[get("/bcast/resultsIndv")]
 fn get_resultsindv() -> Response {
     response_from_file(&full_path("resultsIndv.json"), 0)
 }
 
-#[get("/bcast/resultsindv/blocking/:")]
+#[get("/bcast/resultsIndv/blocking/:")]
 fn get_resultsindv_blocking(req: Request) -> Response {
     response_from_file(&full_path("resultsIndv.json"), parse_timeout(req.get_wildcard().unwrap()))
 }
 
-#[get("/bcast/resultsteam")]
+#[get("/bcast/resultsTeam")]
 fn get_resultsteam() -> Response {
     response_from_file(&full_path("resultsTeam.json"), 0)
 }
 
-#[get("/bcast/resultsteam/blocking/:")]
+#[get("/bcast/resultsTeam/blocking/:")]
 fn get_resultsteam_blocking(req: Request) -> Response {
     response_from_file(&full_path("resultsTeam.json"), parse_timeout(req.get_wildcard().unwrap()))
 }
