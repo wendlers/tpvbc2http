@@ -10,3 +10,4 @@ tinyhttp =  { version = "0.5.0", default-features = false }
 # openssl = { version = "0.10", features = ["vendored"] }
 notify = "6.1.1"
 clap = { version = "4.5.23", features = ["derive"] }
+simple-server = "0.4.0"
