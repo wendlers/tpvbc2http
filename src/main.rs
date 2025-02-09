@@ -1,4 +1,5 @@
-use std::env;
+use std::{env, process};
+use ctrlc;
 use clap::Parser;
 use log::info;
 
@@ -22,8 +23,14 @@ struct Args {
 mod server;
 
 fn main() {
-    colog::init();
+    ctrlc::set_handler(move || {
+        log::info!("Shutdown!");
+        process::exit(0);
+    })
+    .expect("Error setting Ctrl-C handler");
 
+    colog::init();
+   
     let path = env::current_dir().unwrap();
     let args = Args::parse();
     let mut tpvbcdir = format!("{}/http/testing/", path.display());

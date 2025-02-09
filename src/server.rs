@@ -109,11 +109,13 @@ impl Instance {
             let mut watcher = notify::recommended_watcher(tx).unwrap();
             watcher.watch(Path::new(&path), RecursiveMode::NonRecursive).unwrap();
 
+            let is_linux = cfg!(target_os = "linux");
+
             for res in rx {
                 match res {
                     Ok(e) => {
-                        if e.kind.is_access() {
-                            log::debug!("event: {:?}", e);
+                        log::debug!("event: {:?}", e);
+                        if (is_linux && e.kind.is_access()) || (!is_linux && e.kind.is_modify()) {
                             for p in e.paths {
                                 match Instance::read_from_fs(p.to_str().unwrap()) {
                                     Ok(content) => {
@@ -148,7 +150,7 @@ impl Instance {
                                             log::info!("Updated cache for results_team data");
                                         }
                                     },
-                                    Err(err) => log::warn!("{:?}", err),
+                                    Err(_) => (),    // this is usually windows complaining about file being open in other process
                                 }
                             }
                         }
@@ -161,8 +163,6 @@ impl Instance {
 
     pub fn start(&self, host: &str, port: &str, path: String) {
         self.start_cache(path.clone());
-        
-        // const CACHE_WAIT_TIMEOUT: u64 = 5000;
 
         // access to cache data
         let focus = self.cache.focus_data();
@@ -173,95 +173,37 @@ impl Instance {
         let results_indv = self.cache.results_indv_data();
         let results_team = self.cache.results_team_data();
 
-        // access to msg. bus to broadcast cache changes 
-        // let focus_bus = self.cache.focus_bus();
-        // let nearest_bus = self.cache.nearest_bus();
-        // let entries_bus = self.cache.entries_bus();
-        // let event_bus = self.cache.event_bus();
-        // let groups_bus = self.cache.groups_bus();
-        // let results_indv_bus = self.cache.results_indv_bus();
-        // let results_team_bus = self.cache.results_team_bus();
-
-        let server = Server::new( move |request, mut response| {
+        let mut server = Server::new( move |request, mut response| {
             log::info!("Received: {} {}", request.method(), request.uri());
 
             if request.method() == &Method::GET && request.uri().path().starts_with("/bcast/") {
                 let uri= &request.uri().path()[7..];
 
                 if uri == "focus" {
-                    // wait for cache update data
-                    // let mut rx: bus::BusReader<bool>;
-                    // { 
-                    //     let mut b = focus_bus.lock().unwrap();
-                    //     rx = b.add_rx();
-                    // }
-                    // let _ = rx.recv_timeout(Duration::from_millis(CACHE_WAIT_TIMEOUT));
                     let focus_locked = focus.lock().unwrap();
                     response.header("content-type", "text/json");
                     Ok(response.body(focus_locked.as_bytes().to_vec())?)
                 } else if uri == "nearest" {
-                    // wait for cache update data
-                    // let mut rx: bus::BusReader<bool>;
-                    // { 
-                    //     let mut b = nearest_bus.lock().unwrap();
-                    //     rx = b.add_rx();
-                    // }
-                    // let _ = rx.recv_timeout(Duration::from_millis(CACHE_WAIT_TIMEOUT));
                     let nearest_locked = nearest.lock().unwrap();
                     response.header("content-type", "text/json");
                     Ok(response.body(nearest_locked.as_bytes().to_vec())?)
                 } else if uri == "entries" {
-                    // wait for cache update data
-                    // let mut rx: bus::BusReader<bool>;
-                    // { 
-                    //     let mut b = entries_bus.lock().unwrap();
-                    //     rx = b.add_rx();
-                    // }
-                    // let _ = rx.recv_timeout(Duration::from_millis(CACHE_WAIT_TIMEOUT));
                     let entries_locked = entries.lock().unwrap();
                     response.header("content-type", "text/json");
                     Ok(response.body(entries_locked.as_bytes().to_vec())?)
                 } else if uri == "event" {
-                    // wait for cache update data
-                    // let mut rx: bus::BusReader<bool>;
-                    // { 
-                    //     let mut b = event_bus.lock().unwrap();
-                    //     rx = b.add_rx();
-                    // }
-                    // let _ = rx.recv_timeout(Duration::from_millis(CACHE_WAIT_TIMEOUT));
                     let event_locked = event.lock().unwrap();
                     response.header("content-type", "text/json");
                     Ok(response.body(event_locked.as_bytes().to_vec())?)
                 } else if uri == "groups" {
-                    // wait for cache update data
-                    // let mut rx: bus::BusReader<bool>;
-                    // { 
-                    //     let mut b = groups_bus.lock().unwrap();
-                    //     rx = b.add_rx();
-                    // }
-                    // let _ = rx.recv_timeout(Duration::from_millis(CACHE_WAIT_TIMEOUT));
                     let groups_locked = groups.lock().unwrap();
                     response.header("content-type", "text/json");
                     Ok(response.body(groups_locked.as_bytes().to_vec())?)
                 } else if uri == "resultsIndv" {
-                    // wait for cache update data
-                    // let mut rx: bus::BusReader<bool>;
-                    // { 
-                    //     let mut b = results_indv_bus.lock().unwrap();
-                    //     rx = b.add_rx();
-                    // }
-                    // let _ = rx.recv_timeout(Duration::from_millis(CACHE_WAIT_TIMEOUT));
                     let results_indv_locked = results_indv.lock().unwrap();
                     response.header("content-type", "text/json");
                     Ok(response.body(results_indv_locked.as_bytes().to_vec())?)
                 }  else if uri == "resultsTeam" {
-                    // wait for cache update data
-                    // let mut rx: bus::BusReader<bool>;
-                    // { 
-                    //     let mut b = results_team_bus.lock().unwrap();
-                    //     rx = b.add_rx();
-                    // }
-                    // let _ = rx.recv_timeout(Duration::from_millis(CACHE_WAIT_TIMEOUT));
                     let results_team_locked = results_team.lock().unwrap();
                     response.header("content-type", "text/json");
                     Ok(response.body(results_team_locked.as_bytes().to_vec())?)
@@ -274,6 +216,7 @@ impl Instance {
                 Ok(response.body("<h1>404</h1><p>Page not found!<p>".as_bytes().to_vec())?)                
             }
         });   
+        server.dont_serve_static_files();
         server.listen(host, port);
     }
 }
